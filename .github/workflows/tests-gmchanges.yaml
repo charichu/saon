@@ -1,7 +1,9 @@
 name: tests-gmchanges
 
 on: 
-  pull_request
+  pull_request:
+    paths:
+      - 'gmchanges/**'
     
 jobs:
   build:
