@@ -1,4 +1,4 @@
-name: gmchanges-auth
+name: tests-gmchanges
 
 on: 
   pull_request
