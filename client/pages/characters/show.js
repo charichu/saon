@@ -9,7 +9,7 @@ const showCharacters = ({ currentUser, characters }) => {
         <td>{character.stats}</td>
         <td>
           <Link href="/characters/[characterId]" as={`/characters/${character.id}`}>
-            <a>View</a>
+            <a>Details</a>
           </Link>
         </td>
       </tr>

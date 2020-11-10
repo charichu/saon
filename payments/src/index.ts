@@ -6,6 +6,7 @@ import { OrderCreatedListener } from './events/listeners/orderCreatedListener';
 import { Order } from './models/order';
 
 const start = async () => {
+    console.log('Soon running...');
     if (!process.env.JWT_KEY) {
       throw new Error('JWT_KEY must be defined');
     }

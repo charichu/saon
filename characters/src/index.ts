@@ -5,6 +5,7 @@ import { GMChangeCreatedListener } from'./events/listeners/gmchangeCreatedListen
 import { GMChangeCancelledListener } from'./events/listeners/gmchangeCancelledListener';
 
 const start = async () => {
+    console.log('Generating characters...');
     if (!process.env.JWT_KEY) {
       throw new Error('JWT_KEY must be defined');
     }
