@@ -3,7 +3,8 @@ import { app } from './app';
 
 const start = async () => {
 
-    console.log('Starting up auth ...')
+    console.log('Starting up auth ...');
+    console.log('... or am i?');
 
     if(!process.env.JWT_KEY){
         throw new Error('ENV SECRET NOT FOUND: JWT_KEY');
