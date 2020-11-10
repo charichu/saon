@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: characters-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: characters-mongo
+  template:
+    metadata:
+      labels:
+        app: characters-mongo
+    spec:
+      containers:
+        - name: characters-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: characters-mongo-srv
+spec:
+  selector:
+    app: characters-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

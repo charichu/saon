@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gmchanges-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gmchanges-mongo
+  template:
+    metadata:
+      labels:
+        app: gmchanges-mongo
+    spec:
+      containers:
+        - name: gmchanges-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gmchanges-mongo-srv
+spec:
+  selector:
+    app: gmchanges-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

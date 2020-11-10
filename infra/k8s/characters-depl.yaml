@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: characters-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: characters
+  template:
+    metadata:
+      labels:
+        app: characters
+    spec:
+      containers:
+        - name: characters
+          image: gcr.io/saon-dev/characters
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLUSTER_ID
+              value: saon
+            - name: MONGO_URI
+              value: 'mongodb://characters-mongo-srv:27017/characters'
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: characters-srv
+spec:
+  selector:
+    app: characters
+  ports:
+    - name: characters
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
