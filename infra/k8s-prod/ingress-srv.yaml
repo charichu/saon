@@ -7,7 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
   rules:
-    - host: saon.dev
+    - host: www.saon-beta.xyz
       http:
         paths:
           - path: /api/payments/?(.*)
