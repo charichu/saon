@@ -4,7 +4,7 @@ const BuildClient = ({req}) => {
     if(typeof window === 'undefined'){
         // Server side
         return axios.create({
-            baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local',
+            baseURL: 'http://www.saon-beta.xyz/',
             headers: req.headers
         });
     } else {
