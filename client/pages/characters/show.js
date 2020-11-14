@@ -6,7 +6,7 @@ const showCharacters = ({ currentUser, characters }) => {
     return (
       <tr key={character.id}>
         <td>{character.name}</td>
-        <td>{character.stats}</td>
+        <td>{character.id}</td>
         <td>
           <Link href="/characters/[characterId]" as={`/characters/${character.id}`}>
             <a>Details</a>
@@ -23,7 +23,7 @@ const showCharacters = ({ currentUser, characters }) => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Stats</th>
+            <th>Id</th>
             <th>Link</th>
           </tr>
         </thead>
