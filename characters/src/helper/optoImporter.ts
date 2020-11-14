@@ -5,6 +5,31 @@ import {natsWrapper} from '../natsWrapper';
 export async function optoImport(input: string, userId: string, name: string, discordId?: string) {
     const newChar = JSON.parse(input);
 
+    let advantages = [{}];
+    let disadvantages = [{}];
+    let specialAbilities = [{}];
+
+    for (let prop in newChar.activatable){
+        const add = {
+            [prop]: newChar.activatable[prop]
+        }
+
+        switch(String(prop).charAt(0)){
+            //Advantages start with A like ADV_1
+            case 'A':                
+            advantages.push(add);
+            break;
+            // Disadvantages start with D like DISADV_1
+            case 'D':                
+            disadvantages.push(add);
+            break;
+            //Special Abilities start with S like SA_1
+            case 'S':                
+            specialAbilities.push(add);
+            break;
+        }
+    }
+
     const character = Character.build({
         name,
         stats: input,
@@ -80,20 +105,59 @@ export async function optoImport(input: string, userId: string, name: string, di
             PickLocks : newChar.talents.TAL_57,
             Earthencraft : newChar.talents.TAL_58,
             Clothworking : newChar.talents.TAL_59,
+        }, combatTechniques: {
+            Crossbows : newChar.ct.CT_1,
+            Bows : newChar.ct.CT_2,
+            Daggers : newChar.ct.CT_3,
+            FencingWeapons : newChar.ct.CT_4,
+            ImpactWeapons : newChar.ct.CT_5,
+            ChainWeapons : newChar.ct.CT_6,
+            Lances : newChar.ct.CT_7,
+            Brawling : newChar.ct.CT_9,
+            Shields : newChar.ct.CT_10,
+            Slings : newChar.ct.CT_11,
+            Swords : newChar.ct.CT_12,
+            Polearms : newChar.ct.CT_13,
+            ThrownWeapons : newChar.ct.CT_14,
+            TwoHandedImpactWeapons : newChar.ct.CT_15,
+            TwoHandedSwords : newChar.ct.CT_16,
+            SpittingFire : newChar.ct.CT_17,
+            Blowguns : newChar.ct.CT_18,
+            Discuses : newChar.ct.CT_19,
+            Faecher : newChar.ct.CT_20,
+            Spiesswaffen : newChar.ct.CT_21,
+        },
+        energy: {
+            LPMax : newChar.attr.lp,
+            AEMax : newChar.attr.ae,
+            KPMax : newChar.attr.kp,
+            LPLost : newChar.attr.permanentAE,
+            AELost : newChar.attr.permanentLP,
+            KPLost : newChar.attr.permanentKP,
+            LPCurrent : newChar.attr.lp,
+            AECurrent : newChar.attr.ae,
+            KPCurrent : newChar.attr.kp,
         },
         race: newChar.r,
         culture: newChar.c,
         experienceLevel: newChar.el,
         profession: newChar.professionName,
-        advantages: newChar.activatable,
+        advantages: advantages,
+        disadvantages: disadvantages,
+        specialAbilities: specialAbilities,
         socialStatus: newChar.pers.socialstatus,
         gender: newChar.sex,
         personals: newChar.pers,
-        exp: newChar.ap.total
+        exp: newChar.ap.total, 
+        spells: newChar.spells,    
+        cantrips: newChar.cantrips,
+        blessings: newChar.blessings,
+        liturgies: newChar.liturgies,
+        belongings: newChar.belongings,
+        rules: newChar.rules,
     });
-
-
-    await character.save();
+    
+    await character.save();   
 
     new CharacterCreatedPublisher(natsWrapper.client).publish({
         id: character.id,

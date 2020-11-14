@@ -82,9 +82,9 @@ interface CharacterAttrs {
     LPMax : number,
     AEMax : number,
     KPMax : number,
-    LPLost : number,
-    AELost : number,
-    KPLost : number,
+    LPLost : [{}],
+    AELost : [{}],
+    KPLost : [{}],
     LPCurrent : number,
     AECurrent : number,
     KPCurrent : number,
@@ -92,11 +92,40 @@ interface CharacterAttrs {
   race?: string;
   profession?: string;
   socialStatus?: number;  
-  advantages?: [{}];    
-  disadvantages?: [{}];
+  advantages?: {};    
+  disadvantages?: {};
   gender?: string;
   personals?: [{}];
-  exp?: number;
+  exp?: number;  
+  specialAbilities?: {};
+  combatTechniques?: {
+    Crossbows : number,
+    Bows : number,
+    Daggers : number,
+    FencingWeapons : number,
+    ImpactWeapons : number,
+    ChainWeapons : number,
+    Lances : number,
+    Brawling : number,
+    Shields : number,
+    Slings : number,
+    Swords : number,
+    Polearms : number,
+    ThrownWeapons : number,
+    TwoHandedImpactWeapons : number,
+    TwoHandedSwords : number,
+    SpittingFire : number,
+    Blowguns : number,
+    Discuses : number,
+    Faecher : number,
+    Spiesswaffen : number
+  };
+  spells?: [{}];    
+  cantrips?: [{}];
+  blessings?: [{}];
+  liturgies?: [{}];
+  belongings?: [{}];
+  rules?: [{}];
 }
 
 interface CharacterDoc extends mongoose.Document {
@@ -181,9 +210,9 @@ interface CharacterDoc extends mongoose.Document {
     LPMax : number,
     AEMax : number,
     KPMax : number,
-    LPLost : number,
-    AELost : number,
-    KPLost : number,
+    LPLost : {},
+    AELost : {},
+    KPLost : {},
     LPCurrent : number,
     AECurrent : number,
     KPCurrent : number,
@@ -191,11 +220,40 @@ interface CharacterDoc extends mongoose.Document {
   race?: string;
   profession?: string;
   socialStatus?: number;  
-  advantages?: [{}];    
-  disadvantages?: [{}];
+  advantages?: {};    
+  disadvantages?: {};
   gender?: string;
-  personals?: [{}];
+  personals?: {};
   exp?: number;
+  specialAbilities?: {};
+  combatTechniques?: {
+    Crossbows : number,
+    Bows : number,
+    Daggers : number,
+    FencingWeapons : number,
+    ImpactWeapons : number,
+    ChainWeapons : number,
+    Lances : number,
+    Brawling : number,
+    Shields : number,
+    Slings : number,
+    Swords : number,
+    Polearms : number,
+    ThrownWeapons : number,
+    TwoHandedImpactWeapons : number,
+    TwoHandedSwords : number,
+    SpittingFire : number,
+    Blowguns : number,
+    Discuses : number,
+    Faecher : number,
+    Spiesswaffen : number
+  };
+  spells?: {};    
+  cantrips?: {};
+  blessings?: {};
+  liturgies?: {};
+  belongings?: {};
+  rules?: {};
 }
 
 interface CharacterModel extends mongoose.Model<CharacterDoc> {
@@ -251,15 +309,15 @@ const characterSchema = new mongoose.Schema(
       LPMax : Number,
       AEMax : Number,
       KPMax : Number,
-      LPLost : Number,
-      AELost : Number,
-      KPLost : Number,
+      LPLost : {},
+      AELost : {},
+      KPLost : {},
       LPCurrent : Number,
       AECurrent : Number,
       KPCurrent : Number,
        },
-    advantages: [{}],    
-    disadvantages: [{}],
+    advantages: {},    
+    disadvantages: {},
     skills: {
       Flying : Number,
       Gaukelei : Number,
@@ -343,14 +401,20 @@ const characterSchema = new mongoose.Schema(
       Faecher : Number,
       Spiesswaffen : Number
     },
-    specialAbilities: [{}],
+    specialAbilities: {},
     socialStatus: {
       type: Number,
     },
     gender: {
       type: String,
     },
-    personals: [{}],
+    personals: {},
+    spells: {},    
+    cantrips: {},
+    blessings: {},
+    liturgies: {},
+    belongings: {},
+    rules: {},
   },
   {
     toJSON: {
