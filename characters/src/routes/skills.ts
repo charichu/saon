@@ -20,10 +20,9 @@ router.post('/api/characters/skill/:id', async (req: Request, res: Response) => 
 
     const skillresponse = {
         attr,
-        taw,
+        taw: taw[0],
         mod: 0,
     }
-  
     res.status(200).send(skillresponse);
 });
 

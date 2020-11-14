@@ -1,22 +1,26 @@
 import request from 'supertest';
 import { app } from '../../app';
 import { Character } from '../../models/character';
+import { testImport } from '../../test/testImport';
 
 it('returns 404 if char not found', async () => {
-    await request(app)
-        .post('/api/characters')  
-        .set('Cookie', global.signin('1234'))
-        .send({ name: 'Alrik', stats: 'strong'});
+    
+    const stats = testImport.stats;
     
     await request(app)
         .post('/api/characters')  
         .set('Cookie', global.signin('1234'))
-        .send({ name: 'Balrik', stats: 'weak'});
+        .send({ name: 'Alrik', stats});
+    
+    await request(app)
+        .post('/api/characters')  
+        .set('Cookie', global.signin('1234'))
+        .send({ name: 'Balrik', stats});
         
     await request(app)
         .post('/api/characters')  
         .set('Cookie', global.signin('1234'))
-        .send({ name: 'Calrik', stats: 'average'}); 
+        .send({ name: 'Calrik', stats}); 
 
     const response = await request(app)
         .get('/api/characters') 

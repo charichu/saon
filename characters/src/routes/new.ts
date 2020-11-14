@@ -1,9 +1,6 @@
 import express, { Request, Response} from 'express';
 import { body } from 'express-validator';
-import {requireAuth, validateRequest} from '@chasaon/common';
-import { Character } from '../models/character';
-import { CharacterCreatedPublisher } from '../events/publishers/characterCreatedPublisher';
-import {natsWrapper} from '../natsWrapper';
+import {BadRequestError, requireAuth, validateRequest} from '@chasaon/common';
 import { optoImport } from '../helper/optoImporter';
 
 const router = express.Router();
@@ -14,9 +11,13 @@ router.post('/api/characters', requireAuth, [
     async (req: Request, res: Response) => {
         const { name, stats, discordId } = req.body;
 
-        const characterId = await optoImport(stats, req.currentUser!.id, name, discordId);
+        const character = await optoImport(stats, req.currentUser!.id, name, discordId);
         
-        res.status(201).send(characterId);
+        if(typeof character.id === 'string'){            
+            res.status(201).send(character);
+        } else {
+            throw new BadRequestError('JSON does not match Optolith Export');
+        }
     }
 );
 
