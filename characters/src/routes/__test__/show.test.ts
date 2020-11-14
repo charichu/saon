@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 import { Character } from '../../models/character';
+import { testImport } from '../../test/testImport';
 
 it('returns 404 if char not found', async () => {
     const res = await request(app)
@@ -11,11 +12,12 @@ it('returns 404 if char not found', async () => {
 
 it('returns the character if the character is found', async () => {
     const name = 'Alrik';
-    const stats = 'stats';
+    const stats = testImport.stats;
+    const userId = '1234';
 
     const response = await request(app)
         .post('/api/characters')  
-        .set('Cookie', global.signin())
+        .set('Cookie', global.signin(userId))
         .send({
             name, stats
         })
@@ -23,9 +25,11 @@ it('returns the character if the character is found', async () => {
 
     const characterResponse = await request(app)
         .get(`/api/characters/${response.body.id}`)
+        .set('Cookie', global.signin(userId))
         .send()
         .expect(200);
     
     expect(characterResponse.body.name).toEqual(name);
-    expect(characterResponse.body.stats).toEqual(stats);
+    // stats no longer shown on the character model
+    // expect(characterResponse.body.stats).toEqual(stats);
 });

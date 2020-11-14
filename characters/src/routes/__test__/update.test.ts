@@ -3,14 +3,19 @@ import { app } from '../../app';
 import mongoose from 'mongoose';
 import { Character } from '../../models/character';
 import { natsWrapper } from '../../natsWrapper';
+import { testImport } from '../../test/testImport';
+
+
+const stats = testImport.stats;
 
 it('returns 404 if char id not exists', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
     
+    
     await request(app)
         .put('/api/characters')  
         .set('Cookie', global.signin())
-        .send({ name: 'Alrik', stats: 'strong'})
+        .send({ name: 'Alrik', stats})
         .expect(404);
 });
 
@@ -20,7 +25,7 @@ it('returns a 401 if the user is not authenticated', async () => {
       .put(`/api/characters/${id}`)
       .send({
         name: 'Alrik',
-        stats: 'strong',
+        stats,
       })
       .expect(401);
   });
@@ -31,14 +36,14 @@ it('returns 401 if user is not owner', async () => {
       .set('Cookie', global.signin())
       .send({
         name: 'Alrik',
-        stats: 'strong',
+        stats,
       });
     await request(app)
       .put(`/api/characters/${response.body.id}`)
       .set('Cookie', global.signin())
       .send({
         name: 'Alrik',
-        stats: 'weak',
+        stats,
       })
       .expect(401);
 });

@@ -2,6 +2,7 @@ import request from 'supertest';
 import { app } from '../../app';
 import { Character } from '../../models/character';
 import { natsWrapper } from '../../natsWrapper';
+import { testImport } from '../../test/testImport';
 
 it('has a route handler listening to /api/characters for post requests', async () => {
     const response = await request(app)
@@ -64,7 +65,7 @@ it('creates a character with valid inputs', async () => {
         .set('Cookie', global.signin())
         .send({
             name: 'Alrik',
-            stats: '{"clientVersion": "1.4.2-alpha.4"}'
+            stats: testImport.stats
         })
         .expect(201);
 
@@ -78,7 +79,7 @@ it('publishes an event', async () => {
         .set('Cookie', global.signin())
         .send({
             name: 'Alrik',
-            stats: '{"clientVersion": "1.4.2-alpha.4"}'
+            stats: testImport.stats
         })
         .expect(201);
     
