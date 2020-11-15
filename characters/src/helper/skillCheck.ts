@@ -5,13 +5,13 @@ import { findBestMatch } from 'string-similarity';
 
 const sensitivityTranslate = 0.1;
 
-export async function skillCheck(id: string, reqSkill: string, discordId?: string) {
-        
-    let character = await Character.findById(id);
-
-    if(discordId){      
-        let character = await Character.find({discordId: discordId});      
-    }
+export async function skillCheck(character: any,reqSkill: string) {
+    
+    
+    // let character = await Character.findById(id);    
+    // if(discordId){
+    //     let character = await Character.find({discordId: discordId});
+    // }
     
     const skills = [
         {name: 'Flying' , value: character?.skills?.Flying},
@@ -105,5 +105,15 @@ export async function skillCheck(id: string, reqSkill: string, discordId?: strin
     response.push(coreAttributes.find((item) => item.name === skillChecked?.thirdAttr)?.value);
     response.push(matchedSkill);
 
-    return response;
+    const attr = response.slice(1, 4);
+    const taw = response.slice(0,1);
+
+    const skillresponse = {
+        attr,
+        taw: taw[0],
+        mod: 0,
+        skill: response[4]  
+    }
+
+    return skillresponse;
 } 

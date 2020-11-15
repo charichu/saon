@@ -257,6 +257,8 @@ interface CharacterDoc extends mongoose.Document {
 }
 
 interface CharacterModel extends mongoose.Model<CharacterDoc> {
+  coreAttributes: any;
+  skills: any;
   build(attrs: CharacterAttrs): CharacterDoc;
 }
 

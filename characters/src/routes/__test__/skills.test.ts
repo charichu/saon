@@ -18,10 +18,11 @@ it('returns 200 and response contains all stats', async () => {
         .expect(201);
 
     const skillCheck = await request(app)
-        .post(`/api/characters/skill/${response.body.id}`)
+        .post('/api/characters/skill')
         .set('Cookie', global.signin(userId))
         .send({
-            talent: 'Geography'
+            talent: 'Geography',
+            characterId: response.body.id
         })
         .expect(200);
 
