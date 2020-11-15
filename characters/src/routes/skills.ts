@@ -1,28 +1,22 @@
 import express, { Request, Response} from 'express';
 import { skillCheck } from '../helper/skillCheck';
+import { Character } from '../models/character';
 
 const router = express.Router();
 
-router.post('/api/characters/skill/:id', async (req: Request, res: Response) => {
+router.post('/api/characters/skill', async (req: Request, res: Response) => {
     
-    let id = req.params.id;
-
-    if(req.body.discordId){
-       id = req.body.discordId
+    if(req.body.characterId){
+        const character = await Character.findById(req.body.characterId);
+        const response = await skillCheck(character, req.body.talent);
+        res.status(200).send(response);
+    } else if(req.body.discordId) {
+        const character = await Character.findOne({discordId: req.body.discordId});
+        const response = await skillCheck(character, req.body.talent);
+        res.status(200).send(response);
+    } else {
+        res.status(400).send('No id given');
     }
-
-    const response = await skillCheck(req.params.id, req.body.talent, id);
-
-    const attr = response.slice(1, 4);
-    const taw = response.slice(0,1);
-
-    const skillresponse = {
-        attr,
-        taw: taw[0],
-        mod: 0,
-        skill: response[4]  
-    }
-    res.status(200).send(skillresponse);
 });
 
 export {router as skillsCharacterRouter } 
