@@ -1,6 +1,9 @@
-import {allSkills, allSkillChecks} from '../data/skills';
+import {allSkillChecks} from '../data/skillChecks';
+import {allSkills, allSkillsDE} from '../data/skillNames';
 import {Character} from '../models/character';
 import { findBestMatch } from 'string-similarity';
+
+const sensitivityTranslate = 0.1;
 
 export async function skillCheck(id: string, reqSkill: string, discordId?: string) {
         
@@ -83,15 +86,24 @@ export async function skillCheck(id: string, reqSkill: string, discordId?: strin
         {name: 'strength', value: character?.coreAttributes?.strength}
     ]
     
-    const fuzzySkill = String(findBestMatch(reqSkill, allSkills).bestMatch.target);
+    const fuzzySkill = findBestMatch(reqSkill, allSkills).bestMatch;
+    const fuzzySkillDE = findBestMatch(reqSkill, allSkillsDE);
+    let matchedSkill: string;
+
+    if(fuzzySkill.rating > fuzzySkillDE.bestMatch.rating + sensitivityTranslate){
+        matchedSkill = fuzzySkill.target;
+    } else {
+        matchedSkill = allSkills[fuzzySkillDE.bestMatchIndex];
+    }
  
-    let skillChecked = allSkillChecks.find((item) => item.name === fuzzySkill);
+    let skillChecked = allSkillChecks.find((item) => item.name === matchedSkill);
 
     let response =[];
-    response.push(skills.find((item) => item.name === fuzzySkill)?.value);
+    response.push(skills.find((item) => item.name === matchedSkill)?.value);
     response.push(coreAttributes.find((item) => item.name === skillChecked?.firstAttr)?.value);
     response.push(coreAttributes.find((item) => item.name === skillChecked?.secondAttr)?.value);
     response.push(coreAttributes.find((item) => item.name === skillChecked?.thirdAttr)?.value);
+    response.push(matchedSkill);
 
     return response;
 } 

@@ -4,8 +4,6 @@ import { skillCheck } from '../helper/skillCheck';
 const router = express.Router();
 
 router.post('/api/characters/skill/:id', async (req: Request, res: Response) => {
-
-    console.log('Router is running');
     
     let id = req.params.id;
 
@@ -22,6 +20,7 @@ router.post('/api/characters/skill/:id', async (req: Request, res: Response) => 
         attr,
         taw: taw[0],
         mod: 0,
+        skill: response[4]  
     }
     res.status(200).send(skillresponse);
 });
