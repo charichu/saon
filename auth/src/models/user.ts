@@ -19,6 +19,7 @@ interface UserModel extends mongoose.Model<UserDoc> {
 interface UserDoc extends mongoose.Document {
     email: string;
     password: string;
+    rooms: [name: string, roomId: string];
 }
 
 const userSchema = new mongoose.Schema({
@@ -29,7 +30,11 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    rooms: [{
+        name: String,
+        roomId: String
+    }]
 }, 
     {
         toJSON: {
