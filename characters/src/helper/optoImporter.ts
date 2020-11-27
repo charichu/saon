@@ -7,7 +7,6 @@ import { raceBaseStats } from '../data/baseStats';
 
 export async function optoImport(input: string, userId: string, name: string, discordId?: string) {
     
-    try{
         const newChar = JSON.parse(input);
 
         let advantages = [{}];
@@ -186,7 +185,5 @@ export async function optoImport(input: string, userId: string, name: string, di
         });
 
         return character;
-            
-} catch(e){return e;}
 
 }

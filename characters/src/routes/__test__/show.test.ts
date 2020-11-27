@@ -28,7 +28,7 @@ it('returns the character if the character is found', async () => {
         .set('Cookie', global.signin(userId))
         .send()
         .expect(200);
-    
+        
     expect(characterResponse.body.name).toEqual(name);
     // stats no longer shown on the character model
     // expect(characterResponse.body.stats).toEqual(stats);

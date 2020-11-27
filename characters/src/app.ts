@@ -11,7 +11,7 @@ import { skillsCharacterRouter } from './routes/skills';
 
 const app = express();
 app.set('trust proxy', true);
-app.use(json());
+app.use(json({limit: 10000000}));
 app.use(
     cookieSession({
         signed: false,
@@ -19,6 +19,7 @@ app.use(
         secure: false
     })
 );
+
 app.use(currentUser);
 
 app.use(createCharacterRouter);
