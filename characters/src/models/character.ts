@@ -89,7 +89,30 @@ interface CharacterAttrs {
     AECurrent : number,
     KPCurrent : number,
   };
-  race?: string;
+  spirit?: { 
+    type: number
+  };
+  toughness?: { 
+      type:number
+  };
+  dodge?: { 
+      type: number
+  };    
+  initiative?: { 
+      type: number
+  };
+  movement?: { 
+      type: number
+  };
+  race?: {
+    id: string, 
+    name: string, 
+    nameDE: string,
+    health: number, 
+    spirit: number, 
+    toughness: number, 
+    speed: number
+  };
   profession?: string;
   socialStatus?: number;  
   advantages?: {};    
@@ -216,8 +239,31 @@ interface CharacterDoc extends mongoose.Document {
     LPCurrent : number,
     AECurrent : number,
     KPCurrent : number,
-     };
-  race?: string;
+     };  
+  spirit?: { 
+      type: number
+  };
+  toughness?: { 
+      type:number
+  };
+  dodge?: { 
+      type: number
+  };    
+  initiative?: { 
+      type: number
+  };
+  movement?: { 
+      type: number
+  };
+  race?: {
+    id: string, 
+    name: string,
+    nameDE: string,
+    health: number, 
+    spirit: number, 
+    toughness: number, 
+    speed: number
+  };
   profession?: string;
   socialStatus?: number;  
   advantages?: {};    
@@ -286,7 +332,13 @@ const characterSchema = new mongoose.Schema(
       type: String,
     },
     race: {
-      type: String,
+      id: String, 
+      name: String,
+      nameDE: String, 
+      health: Number, 
+      spirit: Number, 
+      toughness: Number, 
+      speed: Number
     },
     culture: {
       type: String,
@@ -318,6 +370,21 @@ const characterSchema = new mongoose.Schema(
       AECurrent : Number,
       KPCurrent : Number,
        },
+    spirit: { 
+      type: Number
+    },
+    toughness: { 
+      type: Number
+    },
+    dodge: { 
+      type: Number
+    },    
+    initiative: { 
+      type: Number
+    },
+    movement: { 
+      type: Number
+    },
     advantages: {},    
     disadvantages: {},
     skills: {

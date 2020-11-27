@@ -2,6 +2,8 @@ import { Character } from '../models/character';
 import { CharacterCreatedPublisher } from '../events/publishers/characterCreatedPublisher';
 import {natsWrapper} from '../natsWrapper';
 import { BadRequestError } from '@chasaon/common';
+import { findBestMatch } from 'string-similarity';
+import { raceBaseStats } from '../data/baseStats';
 
 export async function optoImport(input: string, userId: string, name: string, discordId?: string) {
     
@@ -11,6 +13,10 @@ export async function optoImport(input: string, userId: string, name: string, di
         let advantages = [{}];
         let disadvantages = [{}];
         let specialAbilities = [{}];
+        let race = raceBaseStats.find((item) => item.id === newChar.r);
+        let LPMax = (race!.health + 2 * newChar.attr.values[6].value) - newChar.attr.permanentLP.lost;
+        let AEMax: number = 0;
+        let KPMax: number = 0;
 
         for (let prop in newChar.activatable){
             const add = {
@@ -32,6 +38,16 @@ export async function optoImport(input: string, userId: string, name: string, di
                 break;
             }
         }
+
+        if(Object.keys(newChar.blessings!).length !== 0){
+            KPMax = 34 - newChar.attr.permanentKP.lost;
+
+            console.log(newChar.attr.permanentKP);
+        }
+        if(Object.keys(newChar.spells!).length !== 0){
+            AEMax = 34 - newChar.attr.permanentAE.lost;
+        }
+
         const character = Character.build({
             name,
             stats: input,
@@ -130,17 +146,17 @@ export async function optoImport(input: string, userId: string, name: string, di
                 Spiesswaffen : newChar.ct.CT_21,
             },
             energy: {
-                LPMax : newChar.attr.lp,
-                AEMax : newChar.attr.ae,
-                KPMax : newChar.attr.kp,
-                LPLost : newChar.attr.permanentAE,
-                AELost : newChar.attr.permanentLP,
+                LPMax : LPMax,
+                AEMax : AEMax,
+                KPMax : KPMax,
+                LPLost : newChar.attr.permanentLP,
+                AELost : newChar.attr.permanentAE,
                 KPLost : newChar.attr.permanentKP,
                 LPCurrent : newChar.attr.lp,
                 AECurrent : newChar.attr.ae,
                 KPCurrent : newChar.attr.kp,
             },
-            race: newChar.r,
+            race: race,
             culture: newChar.c,
             experienceLevel: newChar.el,
             profession: newChar.professionName,
