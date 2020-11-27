@@ -65,7 +65,7 @@ export const allSkillsDE = [
     'Klettern',
     'Körperbeherrschung',
     'Kraftakt',
-    'Reitem',
+    'Reiten',
     'Schwimmen', 
     'Selbstbeherrschung', 
     'Singen', 

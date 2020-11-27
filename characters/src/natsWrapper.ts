@@ -17,7 +17,8 @@ class NatsWrapper {
     return new Promise((resolve, reject) => {
       this.client.on('connect', () => {
         console.log('Connected to NATS');
-        resolve();
+        //somehow throws error without the 'test', since apparently needs an argument now??
+        resolve('test');
       });
       this.client.on('error', (err) => {
         reject(err);
