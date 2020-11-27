@@ -13,6 +13,8 @@ export async function exposeCharacter(character: any) {
 
     const output = {
         "id": character?.id,
+        "discordId": character?.discordId,
+        "userId": character?.userId,
         "name": character?.name,
         "race": character?.race.nameDE,
         "culture": character?.culture,

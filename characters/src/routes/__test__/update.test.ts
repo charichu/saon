@@ -85,7 +85,7 @@ it('returns 400 if invalid params provided', async () => {
         
 });
 
-it('returns 400 if invalid params provided', async () => {
+it('update discordId is successfull', async () => {
     const cookie = global.signin();
     const response = await request(app)
         .post('/api/characters')
