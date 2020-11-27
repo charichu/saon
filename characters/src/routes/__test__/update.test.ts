@@ -94,7 +94,8 @@ it('update discordId is successfull', async () => {
         name: 'Alrik',
         stats,
         discordId: '12'
-        });
+        })
+        .expect(201);
     
     await request(app)
         .put(`/api/characters/${response.body.id}`)
@@ -109,6 +110,7 @@ it('update discordId is successfull', async () => {
     const characterResponse = await request(app)
         .get(`/api/characters/${response.body.id}`)
         .send();
+        
     //No real updates possible atm
     //expect(characterResponse.body.stats).toEqual('stronger');
     expect(characterResponse.body.discordId).toEqual('12');                
