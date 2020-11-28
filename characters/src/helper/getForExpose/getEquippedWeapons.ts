@@ -36,9 +36,7 @@ export async function getEquippedWeapons(character: any) {
         if(items[key].combatTechnique){
             
             const i = items[key].combatTechnique.length;
-            console.log(i);
             let combatSkill = allCombatSkillsDE[parseInt(items[key].combatTechnique.slice(3, i))-1];
-            console.log(combatSkill);
             let add = combatSkills.find((item) => item.name === combatSkill);
 
             items[key].combatTechnique = add;

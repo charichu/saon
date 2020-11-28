@@ -4,16 +4,22 @@ import { getSkills } from './getForExpose/getSkills';
 import { getCombatSkills } from './getForExpose/getCombatSkills';
 import { getEquippedWeapons } from './getForExpose/getEquippedWeapons';
 import { getEquippedArmor } from './getForExpose/getEquippedArmor';
+import { setChecks } from './setForExpose/setChecks';
 
 export async function exposeCharacter(character: any) {
 
     let expLevel = expLevelDE[parseInt(character?.experienceLevel.slice(-1))];
 
     const coreAttributes = await getCoreAttributes(character);
-    const skills = await getSkills(character);
     const combatSkills = await getCombatSkills(character);
     const weapons = await getEquippedWeapons(character);
     const armor = await getEquippedArmor(character);
+
+    let skills = await getSkills(character);
+    skills = await setChecks(coreAttributes, skills);
+
+    const spells = await setChecks(coreAttributes, character.spells);
+    const liturgies = await setChecks(coreAttributes, character.liturgies);
 
     const output = {
         "id": character?.id,
@@ -43,7 +49,9 @@ export async function exposeCharacter(character: any) {
             {name: 'Wundschwelle', value: Math.round(character?.coreAttributes?.constitution/2)}
         ],
         weapons,
-        armor
+        armor,
+        spells,
+        liturgies
     };
 
     return output;
