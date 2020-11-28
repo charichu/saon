@@ -8,7 +8,7 @@ export const allCombatSkillsDE = [
     'Fechtwaffen' ,
     'Hiebwaffen' ,
     'Kettenwaffen' ,
-    'Lanzen' ,
+    'Lanzen' , '',
     'Raufen' ,
     'Schilde' ,
     'Schleudern' ,
@@ -29,14 +29,16 @@ export async function getEquippedWeapons(character: any) {
     const combatSkills = await getCombatSkills(character);
 
     const items = await getInventory(character);
-    
+
     let equippedWeapons = new Array();    
 
     for (var key of Object.keys(items)) {
         if(items[key].combatTechnique){
-
-            let combatSkill = allCombatSkillsDE[parseInt(items[key].combatTechnique.slice(-1))-1];
             
+            const i = items[key].combatTechnique.length;
+            console.log(i);
+            let combatSkill = allCombatSkillsDE[parseInt(items[key].combatTechnique.slice(3, i))-1];
+            console.log(combatSkill);
             let add = combatSkills.find((item) => item.name === combatSkill);
 
             items[key].combatTechnique = add;
@@ -73,7 +75,7 @@ export async function getEquippedWeapons(character: any) {
             weight: equippedWeapons[i].weight,
             threshold: threshold,
         })
-    }
+    }   
 
     return weapons;
 }
