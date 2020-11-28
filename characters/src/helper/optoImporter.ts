@@ -1,9 +1,8 @@
 import { Character } from '../models/character';
 import { CharacterCreatedPublisher } from '../events/publishers/characterCreatedPublisher';
 import {natsWrapper} from '../natsWrapper';
-import { BadRequestError } from '@chasaon/common';
-import { findBestMatch } from 'string-similarity';
 import { raceBaseStats } from '../data/baseStats';
+import { defaultAvatar } from '../data/defaultAvatar';
 
 export async function optoImport(input: string, userId: string, name: string, discordId?: string) {
     
@@ -47,11 +46,17 @@ export async function optoImport(input: string, userId: string, name: string, di
             AEMax = 34 - newChar.attr.permanentAE.lost;
         }
 
+        let avatar = newChar.avatar;
+        if(!newChar.avatar){
+            avatar = defaultAvatar;
+        }
+
         const character = Character.build({
             name,
             stats: input,
             userId,
             discordId,
+            avatar: avatar,
             coreAttributes: {
                 courage : newChar.attr.values[0].value,
                 sagacity : newChar.attr.values[1].value,

@@ -2,7 +2,6 @@ import express, { Request, Response} from 'express';
 import { Character } from '../models/character';
 import {NotFoundError} from '@chasaon/common';
 import { exposeCharacter } from '../helper/exposeCharacter';
-import { check } from 'express-validator';
 
 const router = express.Router();
 
