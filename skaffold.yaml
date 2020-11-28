@@ -59,3 +59,11 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: gcr.io/saon-dev/wiki
+      context: wiki
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .

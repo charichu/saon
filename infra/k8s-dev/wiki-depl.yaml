@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wiki-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wiki
+  template:
+    metadata:
+      labels:
+        app: wiki
+    spec:
+      containers:
+        - name: wiki
+          image: gcr.io/saon-dev/wiki
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLUSTER_ID
+              value: saon
+            - name: MONGO_URI
+              value: 'mongodb://wiki-mongo-srv:27017/wiki'
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wiki-srv
+spec:
+  selector:
+    app: wiki
+  ports:
+    - name: wiki
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
