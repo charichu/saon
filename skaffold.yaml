@@ -35,27 +35,27 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: gcr.io/saon-dev/gmchanges
-      context: gmchanges
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
-    - image: gcr.io/saon-dev/expiration
-      context: expiration
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
-    - image: gcr.io/saon-dev/payments
-      context: payments
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
+    #- image: gcr.io/saon-dev/gmchanges
+    #  context: gmchanges
+    #  docker:
+    #    dockerfile: Dockerfile
+    #  sync:
+    #    manual:
+    #      - src: 'src/**/*.ts'
+    #        dest: .
+    #- image: gcr.io/saon-dev/expiration
+    #  context: expiration
+    #  docker:
+    #    dockerfile: Dockerfile
+    #  sync:
+    #    manual:
+    #      - src: 'src/**/*.ts'
+    #        dest: .
+    #- image: gcr.io/saon-dev/payments
+    #  context: payments
+    #  docker:
+    #    dockerfile: Dockerfile
+    #  sync:
+    #    manual:
+    #      - src: 'src/**/*.ts'
+    #        dest: .

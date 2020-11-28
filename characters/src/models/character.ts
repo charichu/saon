@@ -496,6 +496,7 @@ const characterSchema = new mongoose.Schema(
         ret.id = ret._id;
         delete ret._id;
         delete ret.stats;
+        delete ret.avatar;
       },
     },
   }

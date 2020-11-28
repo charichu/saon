@@ -3,6 +3,10 @@ import { CharacterCreatedPublisher } from '../events/publishers/characterCreated
 import {natsWrapper} from '../natsWrapper';
 import { raceBaseStats } from '../data/baseStats';
 import { defaultAvatar } from '../data/defaultAvatar';
+import { mapSpells } from './mapImport/mapSpells';
+import { mapBlessings } from './mapImport/mapBlessings';
+import { mapCantrips } from './mapImport/mapCantrips';
+import { mapLiturgies } from './mapImport/mapLiturgies';
 
 export async function optoImport(input: string, userId: string, name: string, discordId?: string) {
     
@@ -37,10 +41,28 @@ export async function optoImport(input: string, userId: string, name: string, di
             }
         }
 
+        let spells: any = new Array();
+        if(newChar.spells){
+            spells = await mapSpells(newChar.spells);
+        }
+
+        let cantrips: any = new Array();
+        if(newChar.cantrips){
+            cantrips = await mapCantrips(newChar.cantrips);
+        }
+
+        let blessings: any = new Array();
+        if(newChar.blessings){
+            blessings = await mapBlessings(newChar.blessings);
+        }
+
+        let liturgies: any = new Array();
+        if(newChar.liturgies){
+            liturgies = await mapLiturgies(newChar.liturgies);
+        }
+
         if(Object.keys(newChar.blessings!).length !== 0){
             KPMax = 34 - newChar.attr.permanentKP.lost;
-
-            console.log(newChar.attr.permanentKP);
         }
         if(Object.keys(newChar.spells!).length !== 0){
             AEMax = 34 - newChar.attr.permanentAE.lost;
@@ -171,10 +193,10 @@ export async function optoImport(input: string, userId: string, name: string, di
             gender: newChar.sex,
             personals: newChar.pers,
             exp: newChar.ap.total, 
-            spells: newChar.spells,    
-            cantrips: newChar.cantrips,
-            blessings: newChar.blessings,
-            liturgies: newChar.liturgies,
+            spells: spells,    
+            cantrips: cantrips,
+            blessings: blessings,
+            liturgies: liturgies,
             belongings: newChar.belongings,
             rules: newChar.rules,
         });
