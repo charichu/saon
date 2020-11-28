@@ -1,5 +1,3 @@
-import e from 'express';
-import { check } from 'express-validator';
 import { getCombatSkills } from './getCombatSkills';
 import { getInventory } from './getInventory';
 
@@ -10,7 +8,7 @@ export const allCombatSkillsDE = [
     'Fechtwaffen' ,
     'Hiebwaffen' ,
     'Kettenwaffen' ,
-    'Lanzen' ,
+    'Lanzen' , '',
     'Raufen' ,
     'Schilde' ,
     'Schleudern' ,
@@ -31,36 +29,34 @@ export async function getEquippedWeapons(character: any) {
     const combatSkills = await getCombatSkills(character);
 
     const items = await getInventory(character);
-    
-    let equippedWeapons = new Array();
-    let equippedArmor = new Array();
-    
+
+    let equippedWeapons = new Array();    
 
     for (var key of Object.keys(items)) {
         if(items[key].combatTechnique){
-
-            let combatSkill = allCombatSkillsDE[parseInt(items[key].combatTechnique.slice(-1))-1];
             
+            const i = items[key].combatTechnique.length;
+            console.log(i);
+            let combatSkill = allCombatSkillsDE[parseInt(items[key].combatTechnique.slice(3, i))-1];
+            console.log(combatSkill);
             let add = combatSkills.find((item) => item.name === combatSkill);
 
             items[key].combatTechnique = add;
             
             equippedWeapons.push(items[key]);
-        } else if(items[key].pro){
-            equippedArmor.push(items[key]);
         }
     }
 
-    let output = new Array();
+    let weapons = new Array();
 
-    try{for(let i = 0; i < equippedWeapons.length; i++) {
+    for(let i = 0; i < equippedWeapons.length; i++) {
 
         let threshold = 16;
 
         let checkBonusDamage = equippedWeapons[i].combatTechnique.valueLE - threshold;
         let bonusDamage = checkBonusDamage > 0 ? checkBonusDamage : 0;
 
-        output.push({
+        weapons.push({
             weapon: equippedWeapons[i].name,
             combatSkill: equippedWeapons[i].combatTechnique.name,
             bonusDamage: bonusDamage,
@@ -79,16 +75,7 @@ export async function getEquippedWeapons(character: any) {
             weight: equippedWeapons[i].weight,
             threshold: threshold,
         })
-    }
+    }   
 
-    for(let i = 0; i < equippedArmor.length; i++) {
-
-        output.push({
-            armor: equippedArmor[i].name,
-            protection: equippedArmor[i].pro,
-            encumbrance: equippedArmor[i].enc
-        })
-    }}catch(e){console.log(e)}
-
-    return output;
+    return weapons;
 }
