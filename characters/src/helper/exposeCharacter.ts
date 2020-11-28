@@ -1,9 +1,9 @@
 import { expLevelDE, raceBaseStats, socialStatus } from '../data/baseStats';
-import { getCoreAttributes } from './getCoreAttributes';
-import { getSkills } from './getSkills';
-import { getCombatSkills } from './getCombatSkills';
-import { getEquippedWeapons } from './getEquippedWeapons';
-import { getEquippedArmor } from './getEquippedArmor';
+import { getCoreAttributes } from './getForExpose/getCoreAttributes';
+import { getSkills } from './getForExpose/getSkills';
+import { getCombatSkills } from './getForExpose/getCombatSkills';
+import { getEquippedWeapons } from './getForExpose/getEquippedWeapons';
+import { getEquippedArmor } from './getForExpose/getEquippedArmor';
 
 export async function exposeCharacter(character: any) {
 
