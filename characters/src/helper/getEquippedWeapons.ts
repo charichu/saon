@@ -1,5 +1,3 @@
-import e from 'express';
-import { check } from 'express-validator';
 import { getCombatSkills } from './getCombatSkills';
 import { getInventory } from './getInventory';
 
@@ -32,9 +30,7 @@ export async function getEquippedWeapons(character: any) {
 
     const items = await getInventory(character);
     
-    let equippedWeapons = new Array();
-    let equippedArmor = new Array();
-    
+    let equippedWeapons = new Array();    
 
     for (var key of Object.keys(items)) {
         if(items[key].combatTechnique){
@@ -46,21 +42,19 @@ export async function getEquippedWeapons(character: any) {
             items[key].combatTechnique = add;
             
             equippedWeapons.push(items[key]);
-        } else if(items[key].pro){
-            equippedArmor.push(items[key]);
         }
     }
 
-    let output = new Array();
+    let weapons = new Array();
 
-    try{for(let i = 0; i < equippedWeapons.length; i++) {
+    for(let i = 0; i < equippedWeapons.length; i++) {
 
         let threshold = 16;
 
         let checkBonusDamage = equippedWeapons[i].combatTechnique.valueLE - threshold;
         let bonusDamage = checkBonusDamage > 0 ? checkBonusDamage : 0;
 
-        output.push({
+        weapons.push({
             weapon: equippedWeapons[i].name,
             combatSkill: equippedWeapons[i].combatTechnique.name,
             bonusDamage: bonusDamage,
@@ -81,14 +75,5 @@ export async function getEquippedWeapons(character: any) {
         })
     }
 
-    for(let i = 0; i < equippedArmor.length; i++) {
-
-        output.push({
-            armor: equippedArmor[i].name,
-            protection: equippedArmor[i].pro,
-            encumbrance: equippedArmor[i].enc
-        })
-    }}catch(e){console.log(e)}
-
-    return output;
+    return weapons;
 }

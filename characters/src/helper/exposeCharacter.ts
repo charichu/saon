@@ -1,10 +1,9 @@
-import {Character} from '../models/character';
-import { findBestMatch } from 'string-similarity';
 import { expLevelDE, raceBaseStats, socialStatus } from '../data/baseStats';
 import { getCoreAttributes } from './getCoreAttributes';
 import { getSkills } from './getSkills';
 import { getCombatSkills } from './getCombatSkills';
 import { getEquippedWeapons } from './getEquippedWeapons';
+import { getEquippedArmor } from './getEquippedArmor';
 
 export async function exposeCharacter(character: any) {
 
@@ -13,7 +12,8 @@ export async function exposeCharacter(character: any) {
     const coreAttributes = await getCoreAttributes(character);
     const skills = await getSkills(character);
     const combatSkills = await getCombatSkills(character);
-    const weaponsAndArmor = await getEquippedWeapons(character);
+    const weapons = await getEquippedWeapons(character);
+    const armor = await getEquippedArmor(character);
 
     const output = {
         "id": character?.id,
@@ -42,7 +42,8 @@ export async function exposeCharacter(character: any) {
             {name: 'Geschwindigkeit', value: character?.race.speed},
             {name: 'Wundschwelle', value: Math.round(character?.coreAttributes?.constitution/2)}
         ],
-        weaponsAndArmor
+        weapons,
+        armor
     };
 
     return output;
