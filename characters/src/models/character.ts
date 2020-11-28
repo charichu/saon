@@ -7,6 +7,7 @@ interface CharacterAttrs {
   userId: string;
   discordId?: string;
   experienceLevel?: string;
+  avatar?: string;
   culture?: string;
   coreAttributes?: {
     courage : number,
@@ -158,6 +159,7 @@ interface CharacterDoc extends mongoose.Document {
   version: number;
   discordId?: string;
   gmchangeId?: string;
+  avatar?: string;
   coreAttributes?: {
     courage : number,
     sagacity : number,
@@ -327,6 +329,9 @@ const characterSchema = new mongoose.Schema(
     },
     discordId: {
       type: String,
+    },
+    avatar: {
+      type: String
     },
     experienceLevel: {
       type: String,
