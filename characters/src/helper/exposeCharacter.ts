@@ -5,6 +5,7 @@ import { getCombatSkills } from './getForExpose/getCombatSkills';
 import { getEquippedWeapons } from './getForExpose/getEquippedWeapons';
 import { getEquippedArmor } from './getForExpose/getEquippedArmor';
 import { setChecks } from './setForExpose/setChecks';
+import { advantagesDE } from '../data/advantagesDE';
 
 export async function exposeCharacter(character: any) {
 
@@ -51,7 +52,9 @@ export async function exposeCharacter(character: any) {
         weapons,
         armor,
         spells,
-        liturgies
+        liturgies,
+        "advantages": character?.advantages,
+        "disadvantages": character?.disadvantages,
     };
 
     return output;
