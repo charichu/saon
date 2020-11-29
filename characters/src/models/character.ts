@@ -114,7 +114,7 @@ interface CharacterAttrs {
     toughness: number, 
     speed: number
   };
-  profession?: string;
+  profession?: {};
   socialStatus?: number;  
   advantages?: {};    
   disadvantages?: {};
@@ -266,7 +266,7 @@ interface CharacterDoc extends mongoose.Document {
     toughness: number, 
     speed: number
   };
-  profession?: string;
+  profession?: {};
   socialStatus?: number;  
   advantages?: {};    
   disadvantages?: {};
@@ -348,9 +348,7 @@ const characterSchema = new mongoose.Schema(
     culture: {
       type: String,
     },
-    profession: {
-      type: String,
-    },
+    profession: {},
     exp: {
       type: Number
     },
