@@ -7,6 +7,8 @@ import { mapSpells } from './mapImport/mapSpells';
 import { mapBlessings } from './mapImport/mapBlessings';
 import { mapCantrips } from './mapImport/mapCantrips';
 import { mapLiturgies } from './mapImport/mapLiturgies';
+import { mapAdvantages } from './mapImport/mapAdvantages';
+import { mapDisadvantages } from './mapImport/mapDisadvantages';
 
 export async function optoImport(input: string, userId: string, name: string, discordId?: string) {
     
@@ -40,6 +42,9 @@ export async function optoImport(input: string, userId: string, name: string, di
                 break;
             }
         }
+
+        advantages = await mapAdvantages(advantages);
+        disadvantages = await mapDisadvantages(disadvantages);
 
         let spells: any = new Array();
         if(newChar.spells){
