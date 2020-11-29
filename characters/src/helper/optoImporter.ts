@@ -9,16 +9,25 @@ import { mapCantrips } from './mapImport/mapCantrips';
 import { mapLiturgies } from './mapImport/mapLiturgies';
 import { mapAdvantages } from './mapImport/mapAdvantages';
 import { mapDisadvantages } from './mapImport/mapDisadvantages';
+import { sortCoreAttributes } from './mapImport/sortCoreAttributes';
+import { culturesDE } from '../data/culturesDE';
+import { professionsDE } from '../data/professionsDE';
 
 export async function optoImport(input: string, userId: string, name: string, discordId?: string) {
     
         const newChar = JSON.parse(input);
 
+        
+        const sortedAttribues = await sortCoreAttributes(newChar.attr.values);
+
         let advantages = [{}];
         let disadvantages = [{}];
         let specialAbilities = [{}];
         let race = raceBaseStats.find((item) => item.id === newChar.r);
-        let LPMax = (race!.health + 2 * newChar.attr.values[6].value) - newChar.attr.permanentLP.lost;
+        let culture = culturesDE.find((item) => item.id === newChar.c)?.name;        
+        let professionName = professionsDE.find((item) => item.id === newChar.p);
+        let profession = { name: professionName?.name, subname: professionName?.subname};
+        let LPMax = (race!.health + 2 * sortedAttribues[6].value) - newChar.attr.permanentLP.lost;
         let AEMax: number = 0;
         let KPMax: number = 0;
 
@@ -85,14 +94,14 @@ export async function optoImport(input: string, userId: string, name: string, di
             discordId,
             avatar: avatar,
             coreAttributes: {
-                courage : newChar.attr.values[0].value,
-                sagacity : newChar.attr.values[1].value,
-                intuition : newChar.attr.values[2].value,
-                charisma : newChar.attr.values[3].value,
-                dexterity : newChar.attr.values[4].value,
-                agility : newChar.attr.values[5].value,
-                constitution : newChar.attr.values[6].value,
-                strength : newChar.attr.values[7].value,
+                courage : sortedAttribues[0].value ,
+                sagacity : sortedAttribues[1].value,
+                intuition : sortedAttribues[2].value ,
+                charisma : sortedAttribues[3].value ,
+                dexterity : sortedAttribues[4].value ,
+                agility : sortedAttribues[5].value ,
+                constitution : sortedAttribues[6].value ,
+                strength : sortedAttribues[7].value ,
             },
             skills: {
                 Flying : newChar.talents.TAL_1,
@@ -188,9 +197,9 @@ export async function optoImport(input: string, userId: string, name: string, di
                 KPCurrent : newChar.attr.kp,
             },
             race: race,
-            culture: newChar.c,
+            culture: culture,
             experienceLevel: newChar.el,
-            profession: newChar.professionName,
+            profession: profession,
             advantages: advantages,
             disadvantages: disadvantages,
             specialAbilities: specialAbilities,
@@ -217,5 +226,4 @@ export async function optoImport(input: string, userId: string, name: string, di
         });
 
         return character;
-
 }
