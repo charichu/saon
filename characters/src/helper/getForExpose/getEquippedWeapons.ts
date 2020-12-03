@@ -30,7 +30,9 @@ export async function getEquippedWeapons(character: any) {
 
     const items = await getInventory(character);
 
-    let equippedWeapons = new Array();    
+    let equippedWeapons = new Array();  
+    
+    try{
 
     for (var key of Object.keys(items)) {
         if(items[key].combatTechnique){
@@ -44,6 +46,7 @@ export async function getEquippedWeapons(character: any) {
             equippedWeapons.push(items[key]);
         }
     }
+}catch(e){console.log(e)};
 
     let weapons = new Array();
 
