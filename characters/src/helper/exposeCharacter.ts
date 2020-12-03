@@ -55,6 +55,7 @@ export async function exposeCharacter(character: any) {
         liturgies,
         "advantages": character?.advantages,
         "disadvantages": character?.disadvantages,
+        "specialAbilities": character?.specialAbilities,
     };
 
     return output;
