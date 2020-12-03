@@ -6,6 +6,8 @@ import { exposeCharacter } from '../helper/exposeCharacter';
 const router = express.Router();
 
 router.get('/api/characters/:id', async (req: Request, res: Response) => {
+  
+  try{
   const character = await Character.findById(req.params.id);
 
   if (!character) {
@@ -15,6 +17,7 @@ router.get('/api/characters/:id', async (req: Request, res: Response) => {
   const output = await exposeCharacter(character);
 
   res.send(output);
+} catch(e){console.log(e)}
 });
 
 export { router as showCharacterRouter };
