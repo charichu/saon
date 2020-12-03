@@ -12,6 +12,7 @@ import { mapDisadvantages } from './mapImport/mapDisadvantages';
 import { sortCoreAttributes } from './mapImport/sortCoreAttributes';
 import { culturesDE } from '../data/culturesDE';
 import { professionsDE } from '../data/professionsDE';
+import { mapspecialAbilities } from './mapImport/mapSpecialAbilities';
 
 export async function optoImport(input: string, userId: string, name: string, discordId?: string) {
     
@@ -30,6 +31,7 @@ export async function optoImport(input: string, userId: string, name: string, di
         let LPMax = (race!.health + 2 * sortedAttribues[6].value) - newChar.attr.permanentLP.lost;
         let AEMax: number = 0;
         let KPMax: number = 0;
+
 
         for (let prop in newChar.activatable){
             const add = {
@@ -54,6 +56,7 @@ export async function optoImport(input: string, userId: string, name: string, di
 
         advantages = await mapAdvantages(advantages);
         disadvantages = await mapDisadvantages(disadvantages);
+        let specials = mapspecialAbilities(specialAbilities);
 
         let spells: any = new Array();
         if(newChar.spells){
@@ -202,7 +205,7 @@ export async function optoImport(input: string, userId: string, name: string, di
             profession: profession,
             advantages: advantages,
             disadvantages: disadvantages,
-            specialAbilities: specialAbilities,
+            specialAbilities: specials,
             socialStatus: newChar.pers.socialstatus,
             gender: newChar.sex,
             personals: newChar.pers,

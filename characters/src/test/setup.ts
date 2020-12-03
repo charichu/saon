@@ -28,10 +28,11 @@ beforeAll(async ()=> {
 
 beforeEach(async() => {
     jest.clearAllMocks();
-    const collections = await mongoose.connection.db.collections();
+
+    const collections = await Object.keys(mongoose.connection.collections);
 
     for(let collection of collections){
-        await collection.deleteMany({});
+        await mongoose.connection.dropCollection(collection, (error)=>{console.log(error);console.log(collection)});
     }
 });
 

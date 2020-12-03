@@ -35,6 +35,16 @@ beforeEach(async() => {
     }
 });
 
+// beforeEach(async() => {
+//     jest.clearAllMocks();
+
+//     const collections = await Object.keys(mongoose.connection.collections);
+
+//     for(let collection of collections){
+//         await mongoose.connection.dropCollection(collection, (error)=>{console.log(error);console.log(collection)});
+//     }
+// });
+
 afterAll(async() => {
     await mongo.stop();
     await mongoose.connection.close();
