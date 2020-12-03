@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import mongoose from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
@@ -310,7 +312,7 @@ interface CharacterModel extends mongoose.Model<CharacterDoc> {
   build(attrs: CharacterAttrs): CharacterDoc;
 }
 
-const characterSchema = new mongoose.Schema(
+const characterSchema: mongoose.Schema = new mongoose.Schema(
   {
     name: {
       type: String,
