@@ -22,7 +22,7 @@ export async function mapspecialAbilities(optoImport: any){
 
     let merge1 = merge(specialAbilitiesDE, specialAbilities);
 
-
+    try{
     for (var key of Object.keys(optoImport)) {
         let deepOpto = optoImport[key];
         for (var key1 of Object.keys(deepOpto)) {           
@@ -140,6 +140,7 @@ export async function mapspecialAbilities(optoImport: any){
                 output.push(add);
                      
         }
-    }      
+    }
+    }catch(e){console.log(e)}      
     return output;
 };
