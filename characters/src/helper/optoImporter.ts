@@ -205,7 +205,7 @@ export async function optoImport(input: string, userId: string, name: string, di
             profession: profession,
             advantages: advantages,
             disadvantages: disadvantages,
-            specialAbilities: specialAbilities,
+            specialAbilities: specials,
             socialStatus: newChar.pers.socialstatus,
             gender: newChar.sex,
             personals: newChar.pers,
