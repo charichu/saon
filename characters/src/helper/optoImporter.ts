@@ -13,6 +13,8 @@ import { sortCoreAttributes } from './mapImport/sortCoreAttributes';
 import { culturesDE } from '../data/culturesDE';
 import { professionsDE } from '../data/professionsDE';
 import { mapspecialAbilities } from './mapImport/mapSpecialAbilities';
+import { response } from 'express';
+import { resolveModuleName } from 'typescript';
 
 export async function optoImport(input: string, userId: string, name: string, discordId?: string) {
     
@@ -56,7 +58,7 @@ export async function optoImport(input: string, userId: string, name: string, di
 
         advantages = await mapAdvantages(advantages);
         disadvantages = await mapDisadvantages(disadvantages);
-        let specials = mapspecialAbilities(specialAbilities);
+        const specials = await mapspecialAbilities(specialAbilities);
 
         let spells: any = new Array();
         if(newChar.spells){

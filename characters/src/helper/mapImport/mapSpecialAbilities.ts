@@ -29,15 +29,14 @@ export async function mapspecialAbilities(optoImport: any){
 
             const specialAbility = merge1.find((item) => item.id === key1);
 
-            try{
                 let add = {
                     id: key1,
                     name: specialAbility?.name,
                     //text: specialAbility?.rules,
                     tier: deepOpto[key1][0].tier,
-                    selectOptions: specialAbility?.selectOptions,
+                    //selectOptions: specialAbility?.selectOptions,
                     gr: specialAbility?.gr,
-                    subgr: specialAbility?.gr,
+                    //subgr: specialAbility?.gr,
                     max: specialAbility?.max,
                     levels: specialAbility?.levels,       
                 }
@@ -139,11 +138,8 @@ export async function mapspecialAbilities(optoImport: any){
                 };
                   
                 output.push(add);
-                
-                console.log(output);
-
-        }catch(e){}          
+                     
         }
-    }    
+    }      
     return output;
 };
