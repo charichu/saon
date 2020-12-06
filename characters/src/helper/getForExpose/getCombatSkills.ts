@@ -25,6 +25,7 @@ export async function getCombatSkills(
         ChainWeapons : number,
         Lances : number,
         Brawling : number,
+        Whips: number,
         Shields : number,
         Slings : number,
         Swords : number,

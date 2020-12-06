@@ -28,12 +28,13 @@ export async function mapspecialAbilities(optoImport: any){
         for (var key1 of Object.keys(deepOpto)) {           
 
             const specialAbility = merge1.find((item) => item.id === key1);
+            const newTier = (deepOpto[key1][0]?.tier) ? deepOpto[key1][0].tier : 'N/A';    
 
                 let add = {
                     id: key1,
                     name: specialAbility?.name,
                     //text: specialAbility?.rules,
-                    tier: deepOpto[key1][0].tier,
+                    tier: newTier,
                     //selectOptions: specialAbility?.selectOptions,
                     gr: specialAbility?.gr,
                     //subgr: specialAbility?.gr,
