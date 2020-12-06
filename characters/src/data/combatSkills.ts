@@ -5,7 +5,8 @@ export const allCombatSkills = [
     'FencingWeapons' ,
     'ImpactWeapons' ,
     'ChainWeapons' ,
-    'Lances' , '',
+    'Lances' , 
+    'Whips',
     'Brawling' ,
     'Shields' ,
     'Slings' ,
@@ -27,7 +28,8 @@ export const allCombatSkillsDE = [
     'Fechtwaffen' ,
     'Hiebwaffen' ,
     'Kettenwaffen' ,
-    'Lanzen' , '',
+    'Lanzen' , 
+    'Peitschen',
     'Raufen' ,
     'Schilde' ,
     'Schleudern' ,
@@ -38,7 +40,7 @@ export const allCombatSkillsDE = [
     'Zweihandschwerter' ,
     'SpittingFire' ,
     'Blasrohre' ,
-    'Diskus' ,
+    'Diskusse' ,
     'Fächer',
-    'Spiesswaffen' 
+    'Spießwaffen' 
 ];

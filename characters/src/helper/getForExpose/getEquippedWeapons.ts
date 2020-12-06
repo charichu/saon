@@ -1,5 +1,7 @@
 import { allCombatSkillsDE } from "../../data/combatSkills";
 
+const defaultThreshold = 16;
+
 export async function getEquippedWeapons(items: any, combatSkills: any) {
 
     let equippedWeapons = new Array();  
@@ -21,7 +23,7 @@ export async function getEquippedWeapons(items: any, combatSkills: any) {
 
     for(let i = 0; i < equippedWeapons.length; i++) {
 
-        const threshold = equippedWeapons[i].primaryThreshold.threshold;
+        const threshold = equippedWeapons[i]?.primaryThreshold?.threshold || defaultThreshold;
 
         const checkBonusDamage = equippedWeapons[i].combatTechnique.valueLE - threshold;
         const bonusDamage = (checkBonusDamage > 0) ? checkBonusDamage : 0;

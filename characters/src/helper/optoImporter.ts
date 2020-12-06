@@ -176,6 +176,7 @@ export async function optoImport(input: string, userId: string, name: string, di
                 ImpactWeapons : newChar.ct.CT_5,
                 ChainWeapons : newChar.ct.CT_6,
                 Lances : newChar.ct.CT_7,
+                Whips : newChar.ct.CT_8,
                 Brawling : newChar.ct.CT_9,
                 Shields : newChar.ct.CT_10,
                 Slings : newChar.ct.CT_11,
