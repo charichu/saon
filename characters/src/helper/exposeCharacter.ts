@@ -1,21 +1,23 @@
-import { expLevelDE, raceBaseStats, socialStatus } from '../data/baseStats';
+import { expLevelDE, socialStatus } from '../data/baseStats';
 import { getCoreAttributes } from './getForExpose/getCoreAttributes';
 import { getSkills } from './getForExpose/getSkills';
 import { getCombatSkills } from './getForExpose/getCombatSkills';
 import { getEquippedWeapons } from './getForExpose/getEquippedWeapons';
 import { getEquippedArmor } from './getForExpose/getEquippedArmor';
 import { setChecks } from './setForExpose/setChecks';
-import { advantagesDE } from '../data/advantagesDE';
 import { setEnergies } from './setForExpose/setEnergies';
+import { getInventory } from './getForExpose/getInventory';
+import { setSkillCategories } from './setForExpose/setSkillCategories';
 
 export async function exposeCharacter(character: any) {
 
     let expLevel = expLevelDE[parseInt(character?.experienceLevel.slice(-1))];
 
     const coreAttributes = await getCoreAttributes(character);
-    const combatSkills = await getCombatSkills(character);
-    const weapons = await getEquippedWeapons(character);
-    const armor = await getEquippedArmor(character);
+    const combatSkills = await getCombatSkills(coreAttributes, character?.combatTechniques);
+    const items = await getInventory(character);
+    const weapons = await getEquippedWeapons(items, combatSkills);
+    const armor = await getEquippedArmor(items);
 
     let skills = await getSkills(character);
     skills = await setChecks(coreAttributes, skills);
@@ -25,10 +27,14 @@ export async function exposeCharacter(character: any) {
 
     const energy = await setEnergies(character?.energy, character?.advantages, character?.advantages);
 
+    const language = character?.language || 'de-DE';
+    const skillCategories = setSkillCategories(language);
+
     const output = {
         "id": character?.id,
         "discordId": character?.discordId,
         "userId": character?.userId,
+        "language": character?.language,
         "name": character?.name,
         "race": character?.race.nameDE,
         "culture": character?.culture,
@@ -56,6 +62,8 @@ export async function exposeCharacter(character: any) {
         "advantages": character?.advantages,
         "disadvantages": character?.disadvantages,
         "specialAbilities": character?.specialAbilities,
+        "inventory": items,
+        "skillCategories": skillCategories,
     };
 
     return output;

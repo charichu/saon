@@ -1,181 +1,221 @@
-export async function getCombatSkills(character: any) {
+function calcAT(bonus: number, skill: number){
+    const calc = bonus + skill;
+    const base = bonus + 6
+    return (calc > base) ? calc : base;
+};
+
+function calcPA(bonus: number, skill: number){
+    const calc = bonus + Math.ceil(skill/2);
+    const base = bonus + 3;
+    return (calc > base) ? calc : base;
+};
+
+export async function getCombatSkills(
+    coreAttributes: {
+        name: string, 
+        short: string, 
+        value: number
+    }[], 
+    combatTechniques: {
+        Crossbows : number,
+        Bows : number,
+        Daggers : number,
+        FencingWeapons : number,
+        ImpactWeapons : number,
+        ChainWeapons : number,
+        Lances : number,
+        Brawling : number,
+        Shields : number,
+        Slings : number,
+        Swords : number,
+        Polearms : number,
+        ThrownWeapons : number,
+        TwoHandedImpactWeapons : number,
+        TwoHandedSwords : number,
+        SpittingFire : number,
+        Blowguns : number,
+        Discuses : number,
+        Faecher : number,
+        Spiesswaffen : number
+      }) {
     
-    let combatBonusGEKK = Math.max(Math.floor(((character?.coreAttributes?.agility - 8) / 3)), Math.floor(((character?.coreAttributes?.strength - 8) / 3)));
-    let combatBonusFF = Math.floor(((character?.coreAttributes?.dexterity - 8) / 3));
-    let combatBonusGE = Math.floor(((character?.coreAttributes?.agility - 8) / 3));
-    let combatBonusKK = Math.floor(((character?.coreAttributes?.strength - 8) / 3));
+    let combatBonusFF = Math.floor((( coreAttributes[4].value - 8) / 3));
+    let combatBonusGE = Math.floor((( coreAttributes[5].value - 8) / 3));
+    let combatBonusKK = Math.floor((( coreAttributes[7].value - 8) / 3));
+    let combatBonusAT = Math.floor((( coreAttributes[0].value - 8) / 3));
+    let combatBonusGEKK = (combatBonusGE>combatBonusKK) ? combatBonusGE : combatBonusKK;
 
     const combatSkills = [
             {
                 name: 'Armbrüste' , 
-                value: character?.combatTechniques?.Crossbows || 6,
+                value:  combatTechniques?.Crossbows || 6,
                 nameLE: 'FF',
-                valueLE: character?.coreAttributes?.dexterity,
+                valueLE:  coreAttributes[4].value,
                 bonus: combatBonusFF,
-                AT: (combatBonusFF +  character?.combatTechniques?.Crossbows) || 6,
+                AT: calcAT(combatBonusFF,  combatTechniques.Crossbows),
                 PA: 0,
             },
             {
                 name: 'Blasrohre' , 
-                value: character?.combatTechniques?.Blowguns || 6,
+                value:  combatTechniques?.Blowguns || 6,
                 nameLE: 'FF',
-                valueLE: character?.coreAttributes?.dexterity,
+                valueLE:  coreAttributes[4].value,
                 bonus: combatBonusFF,
-                AT: (combatBonusFF +  character?.combatTechniques?.Blowguns) || 6,
+                AT: calcAT(combatBonusFF,  combatTechniques.Blowguns),
                 PA: 0,
             },
             {
                 name: 'Bögen' , 
-                value: character?.combatTechniques?.Bows || 6,
+                value:  combatTechniques?.Bows || 6,
                 nameLE: 'FF',
-                valueLE: character?.coreAttributes?.dexterity,
+                valueLE:  coreAttributes[4].value,
                 bonus: combatBonusFF,
-                AT: (combatBonusFF +  character?.combatTechniques?.Bows) || 6,
+                AT: calcAT(combatBonusFF,  combatTechniques.Bows),
                 PA: 0
             },
             {
                 name: 'Diskus' , 
-                value: character?.combatTechniques?.Discuses || 6,
+                value:  combatTechniques?.Discuses || 6,
                 nameLE: 'FF',
-                valueLE: character?.coreAttributes?.dexterity,
+                valueLE:  coreAttributes[4].value,
                 bonus: combatBonusFF,
-                AT: (combatBonusFF +  character?.combatTechniques?.Discuses) || 6,
+                AT: calcAT(combatBonusFF,  combatTechniques.Discuses),
                 PA: 0 
             },
             {
                 name: 'Dolche' , 
-                value: character?.combatTechniques?.Daggers || 6,
+                value:  combatTechniques?.Daggers || 6,
                 nameLE: 'GE',
-                valueLE: character?.coreAttributes?.agility,
+                valueLE:  coreAttributes[5].value,
                 bonus: combatBonusGE,
-                AT: (combatBonusGE +  character?.combatTechniques?.Daggers) || 6,
-                PA: (combatBonusGE +  Math.ceil(character?.combatTechniques?.Daggers/2)) || 3,
+                AT: calcAT(combatBonusAT,  combatTechniques.Daggers),
+                PA: calcPA(combatBonusGE,  combatTechniques?.Daggers),
             },
             {
                 name: 'Fächer' , 
-                value: character?.combatTechniques?.Faecher  || 6,
+                value:  combatTechniques?.Faecher  || 6,
                 nameLE: 'GE',
-                valueLE: character?.coreAttributes?.agility,
+                valueLE:  coreAttributes[5].value,
                 bonus: combatBonusGE,
-                AT: (combatBonusGE +  character?.combatTechniques?.Faecher) || 6,
-                PA: (combatBonusGE +  Math.ceil(character?.combatTechniques?.Faecher/2)) || 3,
+                AT: calcAT(combatBonusAT,  combatTechniques.Faecher),
+                PA: calcPA(combatBonusGE,  combatTechniques?.Faecher),
             },
             {
                 name: 'Fechtwaffen' , 
-                value: character?.combatTechniques?.FencingWeapons  || 6,
+                value:  combatTechniques?.FencingWeapons  || 6,
                 nameLE: 'GE',
-                valueLE: character?.coreAttributes?.agility,
+                valueLE:  coreAttributes[5].value,
                 bonus: combatBonusGE,
-                AT: (combatBonusGE +  character?.combatTechniques?.FencingWeapons) || 6,
-                PA: (combatBonusGE +  Math.ceil(character?.combatTechniques?.FencingWeapons/2)) || 3,
+                AT: calcAT(combatBonusAT,  combatTechniques.FencingWeapons),
+                PA: calcPA(combatBonusGE,  combatTechniques?.FencingWeapons),
             },
             {
                 name: 'Hiebwaffen' , 
-                value: character?.combatTechniques?.ImpactWeapons || 6,
+                value:  combatTechniques?.ImpactWeapons || 6,
                 nameLE: 'KK',
-                valueLE: character?.coreAttributes?.strength,
+                valueLE:  coreAttributes[7].value,
                 bonus: combatBonusKK,
-                AT: (combatBonusGE +  character?.combatTechniques?.ImpactWeapons) || 6,
-                PA: (combatBonusGE +  Math.ceil(character?.combatTechniques?.ImpactWeapons/2)) || 3
+                AT: calcAT(combatBonusAT,  combatTechniques.ImpactWeapons),
+                PA: calcPA(combatBonusKK,  combatTechniques?.ImpactWeapons),
             },
             {
                 name: 'Kettenwaffen' , 
-                value: character?.combatTechniques?.ChainWeapons || 6,
+                value:  combatTechniques?.ChainWeapons || 6,
                 nameLE: 'KK',
-                valueLE: character?.coreAttributes?.strength,
+                valueLE:  coreAttributes[7].value,
                 bonus: combatBonusKK,
-                AT: (combatBonusGE +  character?.combatTechniques?.ChainWeapons) || 6,
-                PA: (combatBonusGE +  Math.ceil(character?.combatTechniques?.ChainWeapons/2)) || 3
+                AT: calcAT(combatBonusAT,  combatTechniques.ChainWeapons),
+                PA: calcPA(combatBonusKK,  combatTechniques?.ChainWeapons),
             },
             {
                 name: 'Lanzen' , 
-                value: character?.combatTechniques?.Lances || 6,
+                value:  combatTechniques?.Lances || 6,
                 nameLE: 'KK',
-                valueLE: character?.coreAttributes?.strength,
+                valueLE:  coreAttributes[7].value,
                 bonus: combatBonusKK,
-                AT: (combatBonusGE +  character?.combatTechniques?.Lances) || 6,
-                PA: (combatBonusGE +  Math.ceil(character?.combatTechniques?.Lances/2)) || 3
+                AT: calcAT(combatBonusAT,  combatTechniques.Lances),
+                PA: calcPA(combatBonusKK,  combatTechniques?.Lances),
             },
             {
                 name: 'Raufen' , 
-                value: character?.combatTechniques?.Brawling || 6,
+                value:  combatTechniques?.Brawling || 6,
                 nameLE: 'GE/KK',
-                valueLE: Math.max(character?.coreAttributes?.strength, character?.coreAttributes?.agility ),
+                valueLE: Math.max( coreAttributes[7].value,  coreAttributes[5].value ),
                 bonus: combatBonusGEKK,
-                AT: (combatBonusGE +  character?.combatTechniques?.Brawling) || 6,
-                PA: (combatBonusGE +  Math.ceil(character?.combatTechniques?.Brawling/2)) || 3
+                AT: calcAT(combatBonusAT,  combatTechniques.Brawling),
+                PA: calcPA(combatBonusGEKK,  combatTechniques?.Brawling),
             },
             {
                 name: 'Schilde' , 
-                value: character?.combatTechniques?.Shields || 6,
+                value:  combatTechniques?.Shields || 6,
                 nameLE: 'KK',
-                valueLE: character?.coreAttributes?.strength,
+                valueLE:  coreAttributes[7].value,
                 bonus: combatBonusKK,
-                AT: (combatBonusGE +  character?.combatTechniques?.Shields) || 6,
-                PA: (combatBonusGE +  Math.ceil(character?.combatTechniques?.Shields/2)) || 3
+                AT: calcAT(combatBonusAT,  combatTechniques.Shields),
+                PA: calcPA(combatBonusKK,  combatTechniques?.Shields),
             },
             {
                 name: 'Schleudern' , 
-                value: character?.combatTechniques?.Slings || 6,
+                value:  combatTechniques?.Slings || 6,
                 nameLE: 'FF',
-                valueLE: character?.coreAttributes?.dexterity,
+                valueLE:  coreAttributes[4].value,
                 bonus: combatBonusFF,
-                AT: (combatBonusFF +  character?.combatTechniques?.Slings) || 6,
+                AT: calcAT(combatBonusFF,  combatTechniques.Crossbows),
                 PA: 0
             },
             {
                 name: 'Schwerter' , 
-                value: character?.combatTechniques?.Swords || 6,
+                value:  combatTechniques?.Swords || 6,
                 nameLE: 'GE/KK',
-                valueLE: Math.max(character?.coreAttributes?.strength, character?.coreAttributes?.agility ),
+                valueLE: Math.max( coreAttributes[7].value,  coreAttributes[5].value ),
                 bonus: combatBonusGEKK,
-                AT: (combatBonusGE +  character?.combatTechniques?.Swords) || 6,
-                PA: (combatBonusGE +  Math.ceil(character?.combatTechniques?.Swords/2)) || 3
+                AT: calcAT(combatBonusAT,  combatTechniques.Swords),
+                PA: calcPA(combatBonusGEKK,  combatTechniques?.Swords),
             },
             {
                 name: 'Spiesswaffen' , 
-                value: character?.combatTechniques?.Spiesswaffen || 6,
+                value:  combatTechniques?.Spiesswaffen || 6,
                 nameLE: 'KK',
-                valueLE: character?.coreAttributes?.strength,
+                valueLE:  coreAttributes[7].value,
                 bonus: combatBonusKK,
-                AT: (combatBonusGE +  character?.combatTechniques?.Spiesswaffen) || 6,
-                PA: (combatBonusGE +  Math.ceil(character?.combatTechniques?.Spiesswaffen/2)) || 3
+                AT: calcAT(combatBonusAT,  combatTechniques.Spiesswaffen),
+                PA: calcPA(combatBonusKK,  combatTechniques?.Spiesswaffen),
             },
             {
                 name: 'Stangenwaffen' , 
-                value: character?.combatTechniques?.Polearms || 6,
+                value:  combatTechniques?.Polearms || 6,
                 nameLE: 'GE/KK',
-                valueLE: Math.max(character?.coreAttributes?.strength, character?.coreAttributes?.agility ),
+                valueLE: Math.max( coreAttributes[7].value,  coreAttributes[5].value ),
                 bonus: combatBonusGEKK,
-                AT: (combatBonusGE +  character?.combatTechniques?.Polearms) || 6,
-                PA: (combatBonusGE +  Math.ceil(character?.combatTechniques?.Polearms/2)) || 3
+                AT: calcAT(combatBonusAT,  combatTechniques.Polearms),
+                PA: calcPA(combatBonusGEKK,  combatTechniques?.Polearms),
             },
             {
                 name: 'Wurfwaffen' , 
-                value: character?.combatTechniques?.ThrownWeapons || 6,
+                value:  combatTechniques?.ThrownWeapons || 6,
                 nameLE: 'FF',
-                valueLE: character?.coreAttributes?.dexterity,
+                valueLE:  coreAttributes[4].value,
                 bonus: combatBonusFF,
-                AT: (combatBonusFF +  character?.combatTechniques?.ThrownWeapons) || 6,
+                AT: calcAT(combatBonusFF,  combatTechniques.ThrownWeapons),
                 PA: 0
             },
             {
                 name: 'Zweihandhiebwaffen' , 
-                value: character?.combatTechniques?.TwoHandedImpactWeapons || 6,
+                value:  combatTechniques?.TwoHandedImpactWeapons || 6,
                 nameLE: 'KK',
-                valueLE: character?.coreAttributes?.strength,
+                valueLE:  coreAttributes[7].value,
                 bonus: combatBonusKK,
-                AT: (combatBonusGE +  character?.combatTechniques?.TwoHandedImpactWeapons) || 6,
-                PA: (combatBonusGE +  Math.ceil(character?.combatTechniques?.TwoHandedImpactWeapons/2)) || 3
+                AT: calcAT(combatBonusAT,  combatTechniques.TwoHandedImpactWeapons),
+                PA: calcPA(combatBonusKK,  combatTechniques?.TwoHandedImpactWeapons),
             },
             {
                 name: 'Zweihandschwerter' , 
-                value: character?.combatTechniques?.TwoHandedSwords || 6,
+                value:  combatTechniques?.TwoHandedSwords || 6,
                 nameLE: 'KK',
-                valueLE: character?.coreAttributes?.strength,
+                valueLE:  coreAttributes[7].value,
                 bonus: combatBonusKK,
-                AT: (combatBonusGE +  character?.combatTechniques?.TwoHandedSwords) || 6,
-                PA: (combatBonusGE +  Math.ceil(character?.combatTechniques?.TwoHandedSwords/2)) || 3
+                AT: calcAT(combatBonusAT,  combatTechniques.TwoHandedSwords),
+                PA: calcPA(combatBonusKK,  combatTechniques?.TwoHandedSwords),
             },
             
         ];

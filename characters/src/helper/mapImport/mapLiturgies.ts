@@ -13,7 +13,7 @@ export async function mapLiturgies(optoImport: any){
                 id: key,
                 name: liturgy?.name,
                 value: optoImport[key],
-                check: {check1: liturgy?.check1, check2: liturgy?.check1, check3: liturgy?.check1}
+                check: {check1: liturgy?.check1, check2: liturgy?.check2, check3: liturgy?.check3}
             }      
 
             output.push(add);

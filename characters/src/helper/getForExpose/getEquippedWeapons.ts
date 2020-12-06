@@ -1,34 +1,6 @@
-import { getCombatSkills } from './getCombatSkills';
-import { getInventory } from './getInventory';
+import { allCombatSkillsDE } from "../../data/combatSkills";
 
-export const allCombatSkillsDE = [
-    'Armbrüste' ,
-    'Bögen' ,
-    'Dolche' ,
-    'Fechtwaffen' ,
-    'Hiebwaffen' ,
-    'Kettenwaffen' ,
-    'Lanzen' , '',
-    'Raufen' ,
-    'Schilde' ,
-    'Schleudern' ,
-    'Schwerter' ,
-    'Stangenwaffen' ,
-    'Wurfwaffen' ,
-    'Zweihandhiebwaffen' ,
-    'Zweihandschwerter' ,
-    'SpittingFire' ,
-    'Blasrohre' ,
-    'Diskus' ,
-    'Fächer',
-    'Spiesswaffen' 
-];
-
-export async function getEquippedWeapons(character: any) {
-
-    const combatSkills = await getCombatSkills(character);
-
-    const items = await getInventory(character);
+export async function getEquippedWeapons(items: any, combatSkills: any) {
 
     let equippedWeapons = new Array();  
     
@@ -39,28 +11,34 @@ export async function getEquippedWeapons(character: any) {
             
             const i = items[key].combatTechnique.length;
             let combatSkill = allCombatSkillsDE[parseInt(items[key].combatTechnique.slice(3, i))-1];
-            let add = combatSkills.find((item) => item.name === combatSkill);
-
+            let add = combatSkills.find((item: { name: string; }) => item.name === combatSkill);
             items[key].combatTechnique = add;
-            
             equippedWeapons.push(items[key]);
         }
     }
-}catch(e){console.log(e)};
 
     let weapons = new Array();
 
     for(let i = 0; i < equippedWeapons.length; i++) {
 
-        let threshold = 16;
+        const threshold = equippedWeapons[i].primaryThreshold.threshold;
 
-        let checkBonusDamage = equippedWeapons[i].combatTechnique.valueLE - threshold;
-        let bonusDamage = checkBonusDamage > 0 ? checkBonusDamage : 0;
+        const checkBonusDamage = equippedWeapons[i].combatTechnique.valueLE - threshold;
+        const bonusDamage = (checkBonusDamage > 0) ? checkBonusDamage : 0;
+
+        const numberOfDice = equippedWeapons[i].damageDiceNumber;
+        const kindOfDice = equippedWeapons[i].damageDiceSides;
+        const flatDamage = equippedWeapons[i].damageFlat || 0;
 
         weapons.push({
             weapon: equippedWeapons[i].name,
             combatSkill: equippedWeapons[i].combatTechnique.name,
             bonusDamage: bonusDamage,
+            damageNew: { 
+                numberOfDice, 
+                kindOfDice, 
+                flatDamage, 
+                bonusDamage},
             damage: [
                 {name: 'numberOfDice', value: equippedWeapons[i].damageDiceNumber}, 
                 {name: 'kindOfDice', value: equippedWeapons[i].damageDiceSides}, 
@@ -76,7 +54,9 @@ export async function getEquippedWeapons(character: any) {
             weight: equippedWeapons[i].weight,
             threshold: threshold,
         })
-    }   
+    }  
 
     return weapons;
+
+    }catch(e){console.log(e)};
 }
