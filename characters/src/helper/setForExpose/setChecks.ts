@@ -14,12 +14,13 @@ export async function setChecks(
         { name: 'KK', value: attributes[7].value},
     ];
 
+
     for(let i = 0; i < toSet.length; i++){
         toSet[i].check = {
-            check1: shortAttributes[parseInt(toSet[i].check.check1.slice(-1))],
-            check2: shortAttributes[parseInt(toSet[i].check.check2.slice(-1))],
-            check3: shortAttributes[parseInt(toSet[i].check.check3.slice(-1))],        
-        };
+            check1: shortAttributes[parseInt(toSet[i].check.check1.slice(-1))-1],
+            check2: shortAttributes[parseInt(toSet[i].check.check2.slice(-1))-1],
+            check3: shortAttributes[parseInt(toSet[i].check.check3.slice(-1))-1],        
+        };       
     }
 
     return toSet;

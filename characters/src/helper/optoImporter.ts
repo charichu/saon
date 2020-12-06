@@ -218,6 +218,7 @@ export async function optoImport(input: string, userId: string, name: string, di
             liturgies: liturgies,
             belongings: newChar.belongings,
             rules: newChar.rules,
+            language: newChar.locale,
         });
         
         await character.save(); 

@@ -1,8 +1,7 @@
 import { getInventory } from './getInventory';
 
-export async function getEquippedArmor(character: any) {
+export async function getEquippedArmor(items: any) {
 
-    const items = await getInventory(character);
     let equippedArmor = new Array();
     
     try{
