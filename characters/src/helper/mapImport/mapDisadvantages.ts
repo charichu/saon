@@ -39,7 +39,8 @@ export async function mapDisadvantages(optoImport: any){
                     name: disadvantage?.name,
                     //text: disadvantage?.rules,
                     sid: deepOpto[key1][0].sid,
-                    sname: selectOptions[(deepOpto[key1][0].sid-1)].name
+                    sname: selectOptions[(deepOpto[key1][0].sid-1)].name,
+                    text: deepOpto[key1][0].sid2,
                 }
                 output.push(add);
             } else {
