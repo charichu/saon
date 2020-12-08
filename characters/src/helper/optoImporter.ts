@@ -11,30 +11,33 @@ import { mapAdvantages } from './mapImport/mapAdvantages';
 import { mapDisadvantages } from './mapImport/mapDisadvantages';
 import { sortCoreAttributes } from './mapImport/sortCoreAttributes';
 import { culturesDE } from '../data/culturesDE';
-import { professionsDE } from '../data/professionsDE';
 import { mapspecialAbilities } from './mapImport/mapSpecialAbilities';
-import { response } from 'express';
-import { resolveModuleName } from 'typescript';
+import { mapProfessionName } from './mapImport/mapProfessionName';
 
 export async function optoImport(input: string, userId: string, name: string, discordId?: string) {
     
+        //Parsing the input to JSON 
         const newChar = JSON.parse(input);
 
-        
+        //Sort Attributes, since minimal Attributes dont show in Optolith Export, and they can be out of order as well
+        //Sorts them by ATTR_1, ATTR_2 ... etc
         const sortedAttribues = await sortCoreAttributes(newChar.attr.values);
 
+        // Set Arrays to split so called activatable object into specficis
         let advantages = [{}];
         let disadvantages = [{}];
         let specialAbilities = [{}];
-        let race = raceBaseStats.find((item) => item.id === newChar.r);
-        let culture = culturesDE.find((item) => item.id === newChar.c)?.name;        
-        let professionName = professionsDE.find((item) => item.id === newChar.p);
-        let profession = { name: professionName?.name, subname: professionName?.subname};
+
+        // Set basic information like race, culture, profession and energy 
+        const race = raceBaseStats.find((item) => item.id === newChar.r);
+        const culture = culturesDE.find((item) => item.id === newChar.c)?.name;
+        const profession = mapProfessionName(newChar.p, newChar.professionName, newChar.sex);
+
         let LPMax = (race!.health + 2 * sortedAttribues[6].value) - newChar.attr.permanentLP.lost;
         let AEMax: number = 0;
         let KPMax: number = 0;
 
-
+        // Using the speaking ID Names to split the activatable by type
         for (let prop in newChar.activatable){
             const add = {
                 [prop]: newChar.activatable[prop]
