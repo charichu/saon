@@ -13,7 +13,7 @@ export async function mapSpells(optoImport: any){
                 id: key,
                 name: spell?.name,
                 value: optoImport[key],
-                check: {check1: spell?.check1, check2: spell?.check1, check3: spell?.check1}
+                check: {check1: spell?.check1, check2: spell?.check2, check3: spell?.check3}
             }      
 
             output.push(add);
