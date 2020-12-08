@@ -38,7 +38,7 @@ export async function exposeCharacter(character: any) {
         "name": character?.name,
         "race": character?.race.nameDE,
         "culture": character?.culture,
-        "profession": character?.profession.name.m,
+        "profession": character?.profession.name,
         "professionDetail": character?.profession.subname,
         "socialstatus": socialStatus[character?.socialStatus -1],
         "exp": character?.exp,
