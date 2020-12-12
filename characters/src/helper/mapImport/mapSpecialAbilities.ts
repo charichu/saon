@@ -51,7 +51,8 @@ export async function mapspecialAbilities(optoImport: any){
                         break;
                     case 3:                        
                         (add as any).combatTecniques = specialAbility?.combatTecniques;
-                        (add as any).penality = specialAbility?.penalty;   
+                        (add as any).penality = specialAbility?.penalty; 
+                        (add as any).subgr = specialAbility?.subgr;  
                         break;
                     case 4:
                         break;
