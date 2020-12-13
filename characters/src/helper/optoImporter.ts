@@ -228,6 +228,7 @@ export async function optoImport(input: string, userId: string, name: string, di
         await character.save(); 
 
         new CharacterCreatedPublisher(natsWrapper.client).publish({
+            //@ts-ignore
             id: character.id,
             version: character.version,
             name: character.name,
