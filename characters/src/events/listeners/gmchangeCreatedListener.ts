@@ -20,6 +20,7 @@ export class GMChangeCreatedListener extends Listener<GMChangeCreatedEvent> {
         // save char
         await character.save();
         new CharacterUpdatedPublisher(this.client).publish({
+            //@ts-ignore
             id: character.id,
             name: character.name,
             stats: character.stats,

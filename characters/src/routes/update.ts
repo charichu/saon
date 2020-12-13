@@ -37,6 +37,7 @@ router.put(
       await character.save();
 
       new CharacterUpdatedPublisher(natsWrapper.client).publish({
+        //@ts-ignore
         id: character.id,
         version: character.version,
         name: character.name,
