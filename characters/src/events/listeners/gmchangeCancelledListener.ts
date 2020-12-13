@@ -19,6 +19,7 @@ export class GMChangeCancelledListener extends Listener<GMChangeCancelledEvent> 
         character.set({ gmchangeId: undefined });
         await character.save();
         await new CharacterUpdatedPublisher(this.client).publish({
+            //@ts-ignore
             id: character.id,
             gmchangeId: character.gmchangeId,
             name: character.name,
