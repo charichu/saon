@@ -3,7 +3,8 @@ const LandingPage = ({ currentUser, characters }) => {
     <h1>You are signed in</h1>
   ) : (
     <div>
-      <h1>Welcome to saon!</h1>      
+      <h1>Welcome to saon!</h1>
+      <h1>saon got hacked!!!</h1>      
       <p>saon is web application created to get your DSA5 character from Optolith web ready!</p> 
       <p>Stay tuned, because this site will be updating regulary!</p>
 
